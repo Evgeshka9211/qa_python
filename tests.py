@@ -1,19 +1,14 @@
 from main import BooksCollector
+import pytest
 
-# класс TestBooksCollector объединяет набор тестов, которыми мы покрываем наше приложение BooksCollector
-# обязательно указывать префикс Test
 class TestBooksCollector:
 
-    import pytest
-    #@pytest.mark.parametrize('name', ['Шрек', ' ', 'Оченьдлинноеназваниекнигиоооооооооооооочень'])
-    @pytest.mark.parametrize('name', ['Оченьдлинноеназваниекнигиоооооооооооооооооочень', 'Мстители', ''])
+    @pytest.mark.parametrize('name', ['Шрек', 'Букварь', 'Дюймовочка'])
     def test_add_new_book_add_three_books(self, name):
-        # создаем экземпляр (объект) класса BooksCollector
         collector = BooksCollector()
-        # добавляем книгу в справочник:
         collector.add_new_book(name)
         # проверяем, что книга добавилась, длина словаря стала равна 1
-        assert (collector.books_genre is not None and len(collector.books_genre) == 1)
+        assert (len(collector.books_genre) == 1)
 
     def test_set_book_genre_set_correct_genre_to_exists_book(self):
         #создаем экземпляр (объект) класса BooksCollector
@@ -23,7 +18,7 @@ class TestBooksCollector:
         #задаем для книги Шрек значение жанра Мультфильмы
         collector.set_book_genre('Шрек','Мультфильмы')
         #проверяем, что для книги 'Шрек' появилось значение жанра
-        assert collector.books_genre.get('Шрек')
+        assert len(collector.books_genre.get('Шрек')) > 0
 
     def test_get_book_genre_get_correct_name_of_exists_book(self):
         #Создаем экземпляр (объект) класса BooksCollector
@@ -90,7 +85,7 @@ class TestBooksCollector:
         #Получаем из справочника список книг для детей
         children_books = collector.get_books_for_children()
         #Проверяем, что результат попали только две книги из 4-х
-        assert len(children_books) == 2
+        assert len(children_books) == 2 and 'Шрек' in children_books and 'Дюймовочка' in children_books
 
     def test_add_book_in_favorites_add_one_book_in_favorites(self):
         #Создаем экземпляр (объект) класса BooksCollector
